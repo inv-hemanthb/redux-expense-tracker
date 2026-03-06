@@ -67,7 +67,7 @@ export async function login(req: Request, res: Response) {
             });
         }
 
-        res.json({
+        return res.json({
             id: user.id,
             username: user.username,
             token: generateToken(user.id!)
@@ -126,7 +126,7 @@ export async function changePassword(req: Request, res: Response) {
     }
     catch (error) {
         console.error("Error changing password: ", getErrorMessage(error));
-        res.status(500).json({
+        return res.status(500).json({
             error: "Failed to change password"
         });
     }
@@ -147,7 +147,7 @@ export async function deleteUser(req: Request, res: Response) {
     }
     catch (error) {
         console.error("Error deleting user: ", getErrorMessage(error));
-        res.status(500).json({
+        return res.status(500).json({
             error: "Failed to delete user"
         });
     }

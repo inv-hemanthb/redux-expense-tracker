@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js'
+import expensesRoutes from './routes/expensesRoutes.js';
+import healthCheckRoutes from './routes/healthCheckRoutes.js';
 
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 3000;
 
@@ -10,6 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/expenses', expensesRoutes);
+app.use('/api/', healthCheckRoutes);
 
 async function main() {
     try {
