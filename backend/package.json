@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
+    "build": "tsc && yarn run generate:openapi",
     "start": "node dist/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:openapi": "tsx src/scripts/generateOpenAPI.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
@@ -17,7 +18,9 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.20.0"
+    "pg": "^8.20.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -26,6 +29,8 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.3.3",
     "@types/pg": "^8.18.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "prisma": "^7.4.2",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.21.0",
