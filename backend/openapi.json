@@ -11,6 +11,89 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "schemas": {
+      "ExpenseId": {
+        "type": "string",
+        "description": "Prisma CUID identifier",
+        "example": "cmmerlr4x00009zerw7ulq4sg"
+      },
+      "Expense": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/ExpenseId"
+          },
+          "amount": {
+            "type": "number",
+            "example": 20.5
+          },
+          "category": {
+            "type": "string",
+            "example": "food"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "lunch"
+          },
+          "expense_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateExpenseRequest": {
+        "type": "object",
+        "required": [
+          "amount",
+          "category",
+          "expense_date"
+        ],
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "expense_date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "UpdateExpenseRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "expense_date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
     }
   },
   "paths": {
@@ -253,28 +336,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "amount",
-                  "category",
-                  "expense_date"
-                ],
-                "properties": {
-                  "amount": {
-                    "type": "number"
-                  },
-                  "category": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "expense_date": {
-                    "type": "string",
-                    "format": "date-time"
-                  }
-                }
+                "$ref": "#/components/schemas/CreateExpenseRequest"
               }
             }
           }
@@ -392,8 +454,7 @@
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "$ref": "#/components/schemas/ExpenseId"
             },
             "description": "Expense ID"
           }
@@ -403,23 +464,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "amount": {
-                    "type": "number"
-                  },
-                  "category": {
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "expense_date": {
-                    "type": "string",
-                    "format": "date-time"
-                  }
-                }
+                "$ref": "#/components/schemas/UpdateExpenseRequest"
               }
             }
           }
@@ -455,8 +500,7 @@
             "name": "id",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "$ref": "#/components/schemas/ExpenseId"
             },
             "description": "Expense ID"
           }
