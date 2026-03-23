@@ -1,13 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
-export type Theme = "light" | "dark";
-
-interface UIState {
-    theme: Theme;
-    expenseModalOpen: boolean;
-    editingExpenseId: string | null;
-}
+import type { Theme, UIState } from "../../types/ui";
 
 const storedTheme = localStorage.getItem("theme");
 

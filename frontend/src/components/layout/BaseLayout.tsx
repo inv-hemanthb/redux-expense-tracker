@@ -5,15 +5,9 @@ import { logout } from "../../store/features/authSlice";
 import { toggleTheme } from "../../store/features/uiSlice";
 import { useGetExpensesQuery } from "../../store/services/api";
 import type { AppDispatch, RootState } from "../../store/store";
+import type { BaseLayoutProps } from "../../types/layout";
 
 const { Header, Content, Footer } = Layout;
-
-type HeaderMode = "public" | "app";
-
-interface BaseLayoutProps {
-    children: React.ReactNode;
-    headerMode: HeaderMode;
-}
 
 export default function BaseLayout({ children, headerMode }: BaseLayoutProps) {
     const dispatch = useDispatch<AppDispatch>();

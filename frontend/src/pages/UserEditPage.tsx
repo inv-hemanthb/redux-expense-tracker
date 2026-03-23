@@ -5,14 +5,8 @@ import BaseLayout from "../components/layout/BaseLayout";
 import { logout, updateToken } from "../store/features/authSlice";
 import { useChangePasswordMutation, useDeleteAccountMutation } from "../store/services/api";
 import type { AppDispatch } from "../store/store";
+import type { ApiError } from "../types/api";
 import type { ChangePasswordRequest } from "../types/auth";
-
-interface ApiError {
-    status?: number;
-    data?: {
-        error?: string;
-    };
-}
 
 export default function UserEditPage() {
     const dispatch = useDispatch<AppDispatch>();
