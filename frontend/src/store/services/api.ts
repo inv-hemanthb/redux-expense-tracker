@@ -20,7 +20,7 @@ export const api = createApi({
     reducerPath: "api",
 
     baseQuery: fetchBaseQuery({
-        baseUrl: "api",
+        baseUrl: "http://localhost:3000/api",
 
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.token;
@@ -86,7 +86,7 @@ export const api = createApi({
 
         updateExpense: builder.mutation<void, { id: string; data: UpdateExpenseRequest }>({
             query: ({id, data}) => ({
-                url: `/expense/${id}`,
+                url: `/expenses/${id}`,
                 method: "PUT",
                 body: data
             }),
@@ -96,7 +96,7 @@ export const api = createApi({
 
         deleteExpense: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/expense/${id}`,
+                url: `/expenses/${id}`,
                 method: "DELETE"
             }),
 
