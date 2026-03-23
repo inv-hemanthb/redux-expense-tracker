@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+/* Hybrid styling rule:
+   - Tailwind utilities/classes for layout, spacing, and responsiveness.
+   - AntD components/tokens for controls, states, and interaction styling.
+*/
+@layer components {
+  .app-container {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .app-section {
+    @apply py-4 sm:py-6;
+  }
+
+  .page-title {
+    @apply text-2xl font-semibold tracking-tight sm:text-3xl;
+  }
+
+  .page-subtitle {
+    @apply text-sm opacity-80 sm:text-base;
+  }
+}
