@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber } from "antd";
 import dayjs from "dayjs";
 import type { CreateExpenseRequest, Expense, UpdateExpenseRequest } from "../../types/expense";
 import type { Dayjs } from "dayjs";
@@ -25,21 +25,23 @@ export default function ExpenseForm({
 }: ExpenseFormProps) {
     const [form] = Form.useForm<FormValues>();
 
-    const initialValues: Partial<FormValues> | undefined = initialExpense
+    const initialValues: Partial<FormValues> = initialExpense
         ? {
             amount: initialExpense.amount,
             category: initialExpense.category,
             description: initialExpense.description ?? undefined,
             expense_date: dayjs(initialExpense.expense_date),
         }
-        : undefined;
+        : {
+            expense_date: dayjs(),
+        };
 
     const handleFinish = (values: FormValues) => {
         const payload: CreateExpenseRequest | UpdateExpenseRequest = {
             amount: values.amount,
             category: values.category,
             description: values.description ?? null,
-            expense_date: values.expense_date.toISOString(),
+            expense_date: values.expense_date.startOf("day").toISOString(),
         };
         onSubmit(payload);
     };
@@ -62,18 +64,9 @@ export default function ExpenseForm({
             <Form.Item
                 label="Category"
                 name="category"
-                rules={[{ required: true, message: "Please choose a category" }]}
+                rules={[{ required: true, message: "Please enter a category" }]}
             >
-                <Select
-                    placeholder="Select category"
-                    options={[
-                        { value: "food", label: "Food" },
-                        { value: "travel", label: "Travel" },
-                        { value: "shopping", label: "Shopping" },
-                        { value: "utilities", label: "Utilities" },
-                        { value: "other", label: "Other" }
-                    ]}
-                />
+                <Input placeholder="Enter category" />
             </Form.Item>
 
             <Form.Item label="Description" name="description">
@@ -85,7 +78,7 @@ export default function ExpenseForm({
                 name="expense_date"
                 rules={[{ required: true, message: "Please choose a date" }]}
             >
-                <DatePicker showTime className="w-full" />
+                <DatePicker className="w-full" />
             </Form.Item>
 
             <Form.Item>

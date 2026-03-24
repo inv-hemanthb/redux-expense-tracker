@@ -54,7 +54,17 @@ export default function ExpenseTable({ onEdit, filterCategory }: ExpenseTablePro
             title: "Expense Date",
             dataIndex: "expense_date",
             key: "expense_date",
-            render: (d: string) => dayjs(d).format("YYYY-MM-DD HH:mm")
+            render: (d: string) => {
+                const expenseDate = dayjs(d);
+                const isUpcoming = expenseDate.isAfter(dayjs().endOf("month"));
+
+                return (
+                    <div className="flex items-center gap-2">
+                        <span>{expenseDate.format("YYYY-MM-DD")}</span>
+                        {isUpcoming ? <Tag color="blue" className="opacity-80">Upcoming</Tag> : null}
+                    </div>
+                );
+            }
         },
         {
             title: "Actions",
@@ -77,7 +87,8 @@ export default function ExpenseTable({ onEdit, filterCategory }: ExpenseTablePro
 
     const filteredExpenses = useMemo(() => {
         if (!filterCategory) return expenses;
-        return expenses.filter((e) => e.category === filterCategory);
+        const normalizedFilter = filterCategory.toLowerCase();
+        return expenses.filter((e) => e.category.toLowerCase().includes(normalizedFilter));
     }, [expenses, filterCategory]);
 
     return (
@@ -87,6 +98,16 @@ export default function ExpenseTable({ onEdit, filterCategory }: ExpenseTablePro
                 loading={isFetching}
                 dataSource={filteredExpenses}
                 columns={columns}
+                rowClassName={(record) => {
+                    const expenseDate = dayjs(record.expense_date);
+                    if (expenseDate.isBefore(dayjs().startOf("month"))) {
+                        return "opacity-60 text-slate-500 line-through decoration-2 decoration-slate-500 dark:opacity-40";
+                    }
+                    if (expenseDate.isAfter(dayjs().endOf("month"))) {
+                        return "bg-sky-100/70 text-sky-700 dark:bg-sky-500/5 dark:text-sky-300";
+                    }
+                    return "";
+                }}
                 pagination={{
                     current: page,
                     pageSize: limit,

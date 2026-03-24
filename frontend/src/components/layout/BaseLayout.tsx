@@ -1,6 +1,7 @@
 import { Button, Layout, Menu, Space, Typography } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 import { logout } from "../../store/features/authSlice";
 import { toggleTheme } from "../../store/features/uiSlice";
 import { useGetExpensesQuery } from "../../store/services/api";
@@ -20,7 +21,13 @@ export default function BaseLayout({ children, headerMode }: BaseLayoutProps) {
         { skip: headerMode !== "app" }
     );
 
-    const totalExpenses = data?.data?.reduce((sum, expense) => sum + expense.amount, 0) ?? 0;
+    const now = dayjs();
+    const totalExpenses = data?.data?.reduce((sum, expense) => {
+        if (!dayjs(expense.expense_date).isSame(now, "month")) {
+            return sum;
+        }
+        return sum + expense.amount;
+    }, 0) ?? 0;
     const headerBg = theme === "dark" ? "#111827" : "#ffffff";
     const headerTextColor = theme === "dark" ? "#e5e7eb" : "#111827";
     const headerBorder = theme === "dark" ? "1px solid #1f2937" : "1px solid #e2e8f0";
@@ -56,7 +63,7 @@ export default function BaseLayout({ children, headerMode }: BaseLayoutProps) {
                                 style={{ minWidth: 260, background: "transparent", color: headerTextColor }}
                             />
                             <Typography.Text style={{ color: headerTextColor, fontWeight: 600, whiteSpace: "nowrap" }}>
-                                Total Expenses: ₹{totalExpenses.toFixed(2)}
+                                Total (This Month): ₹{totalExpenses.toFixed(2)}
                             </Typography.Text>
                         </div>
                     ) : (
