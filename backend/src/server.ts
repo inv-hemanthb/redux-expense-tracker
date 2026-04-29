@@ -22,7 +22,7 @@ app.use('/api/', healthCheckRoutes);
 async function main() {
     console.log(`Postgres host port: ${process.env.POSTGRES_HOST_PORT}`);
     try {
-        app.listen(SERVER_PORT, () => {
+        app.listen(SERVER_PORT, "0.0.0.0", () => {
             console.log(`Server running at http://localhost:${SERVER_PORT}`);
             console.log(`Swagger docs availabe at http://localhost:${SERVER_PORT}/docs`);
         });
