@@ -20,7 +20,8 @@ export const api = createApi({
     reducerPath: "api",
 
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:3000/api",
+        baseUrl:
+            import.meta.env.VITE_API_BASE_URL ?? "http://localhost:3000/api",
 
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as RootState).auth.token;

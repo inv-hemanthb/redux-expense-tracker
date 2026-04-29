@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import "./loadEnv.js";
 import express from 'express';
 import cors from 'cors';
 import swaggerUi from "swagger-ui-express";
@@ -6,6 +6,7 @@ import { swaggerSpec } from "./config/swagger.js";
 import authRoutes from './routes/authRoutes.js'
 import expensesRoutes from './routes/expensesRoutes.js';
 import healthCheckRoutes from './routes/healthCheckRoutes.js';
+import { getErrorMessage } from './utils/error.js';
 
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 3000;
 
@@ -19,16 +20,15 @@ app.use('/api/expenses', expensesRoutes);
 app.use('/api/', healthCheckRoutes);
 
 async function main() {
+    console.log(`Postgres host port: ${process.env.POSTGRES_HOST_PORT}`);
     try {
-        console.log("Connected to postgres server at port 5433");
-
-        app.listen(SERVER_PORT, ()=>{
+        app.listen(SERVER_PORT, () => {
             console.log(`Server running at http://localhost:${SERVER_PORT}`);
             console.log(`Swagger docs availabe at http://localhost:${SERVER_PORT}/docs`);
         });
     }
     catch (error) {
-
+        console.error("Failed to start server: ", getErrorMessage(error));
     }
 }
 
